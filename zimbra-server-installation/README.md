@@ -16,44 +16,43 @@ You can still install mailcow on a Linux Server that is not running Ubuntu, howe
 
 You can still install Docker on a Linux Server that is not running Ubuntu, however, this may require different commands!
 
-### 1.1. Install Docker
+### 1.1. Change Hosts
 ```bash
-sudo apt update
+sudo nano /etc/hosts
 
-sudo apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-
-sudo apt update
-
-sudo apt-get install docker-ce docker-ce-cli containerd.io
+```
+Set Hosts
+```bash
+127.0.0.1 localhost
+# replace 10.0.127.164  with your server's IP, mail.vasu.local with your subdomain name and mail with your mx name.
+10.0.127.164 mail.vasu.local mail
+# The following lines are desirable for IPv6 capable hosts
+::1 ip6-localhost ip6-loopback fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
 ```
 
-### 1.2. Check if Docker is installed correctly
+
+### 1.2. Change Hostname
 ```bash
-sudo docker run hello-world
+sudo nano /etc/hostname
+```
+Set Hostname
+```bash
+mail
 ```
 
-### 1.3. Install Docker-Compose
-
-Download the latest version (in this case it is 1.25.5, this may change whenever you read this tutorial!)
-
+### 1.3. Reboot Your System
 ```bash
-sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-
-sudo chmod +x /usr/local/bin/docker-compose
+sudo reboot
 ```
 
-### 1.4. Check if Docker-Compose is installed correctly
-```bash
-sudo docker-compose --version
-```
 
-### 1.5. (optional) Add your linux user to the `docker` group
+### 1.4. Verify Hosts and Hostname is successfully updated or not
 ```bash
-sudo usermod -aG docker $USER
+sudo hostname -f
+sudo hostname
 ```
 
 ## 2. Install mailcow-dockerized
